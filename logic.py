@@ -17,6 +17,6 @@ def start_game():
 def add_new_2(mat):
     r = random.randint(0,3)
     c = random.randint(0,3)
-
+    print("about to add a 2")
     # check if empty before assigning num
     mat[r][c] = 2
