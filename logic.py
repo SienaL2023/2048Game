@@ -57,6 +57,7 @@ def compress(mat):
         new_mat.append([0] * 4)
 
     # loop to traverse through the rows
+    # and move every cell as left as possible
     for i in range(4):
         pos = 0
         for j in range(4):
@@ -69,7 +70,8 @@ def compress(mat):
 
 
 # function to merge the cells in matrix before compressing
-def merge(mat): # this just does the math not the movement
+# this just does the math not the movement
+def merge(mat):
     changed = False
     for i in range(4): # all the numbers bc four colmuns
         for j in range(3): # 3 bc theres a plus one so u get the one next to it
@@ -80,6 +82,27 @@ def merge(mat): # this just does the math not the movement
                 changed = True
     return mat, changed
 
+# this is a function to reverse the matrix
+def reverse(mat):
+    # 2D array
+    new_mat = []
+    for i in range(4):
+        new_mat.append([]) # this part makes the 1d new_mat thats blank into a 2d map with multiple rows!
+        for j in range(4):
+            new_mat[i].append(mat[i][3-j]) # new_mat i means that specific row ur changing
+    return new_mat
+
+def transpose(mat):
+    new_mat = []
+    for i in range(4):
+        new_mat.append([])
+        for j in range(4):
+            new_mat[i]. append(mat[j][i]) # basically this is uses the range
+            # so cont from comment above
+            # first time around, i = 0 j = 0, number thats in pos 0, 0 moves to pos 0 ,0,
+            # second time, i = 0, j = 1, number in pos 0 , 1 moves to 1, 0 bc i and j switch
+            # 3rd time, i= 0 j = 2 num in pos 0,2 moves to pos 2,0
+    return new_mat
 # function to update matrix if we move left
 def move_left(mat):
     # first compress the mat
@@ -88,7 +111,32 @@ def move_left(mat):
     new_mat, changed2 = merge(new_mat)
 
     changed = changed1 or changed2
-    # compress again after merging
+    # compress again after merging bc if its 2 2 2 -> 4 0 2 -> 4 2 0
     new_mat, temp = compress(new_mat)
 
+    return new_mat, changed
+
+# function to update matrix if we move right
+def move_right(mat):
+    # first reverse the matrix
+    new_mat = reverse(mat)
+    # compress and merge but its like going left so reverse again
+    new_mat, changed = move_left(new_mat)
+    # reverse again
+    new_mat = reverse(new_mat)
+
+    return new_mat, changed
+
+    # 4 2 2 2 --> 0 4 2 4
+    # reverse -> 2 2 2 4
+    # move left --> 4 2 4 0
+    # reverse again --> 0 4 2 4
+
+def move_up(mat):
+    # transpose
+    new_mat = transpose(mat)
+    # move left
+    new_mat, changed  = move_left(mat)
+    # transpose
+    new_mat = transpose(mat)
     return new_mat, changed
