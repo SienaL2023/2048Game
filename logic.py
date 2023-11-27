@@ -10,6 +10,14 @@ def start_game():
     mat = []
     for i in range(4):
         mat.append([0] * 4)
+
+    # print instructions for game
+    print("These are the commands for this game:")
+    print("W: Move up")
+    print("A: Move left")
+    print("S: Move down")
+    print("D: Move right")
+
     add_new_2(mat)
     return mat
 
@@ -97,7 +105,7 @@ def transpose(mat):
     for i in range(4):
         new_mat.append([])
         for j in range(4):
-            new_mat[i]. append(mat[j][i]) # basically this is uses the range
+            new_mat[i].append(mat[j][i]) # basically this is uses the range
             # so cont from comment above
             # first time around, i = 0 j = 0, number thats in pos 0, 0 moves to pos 0 ,0,
             # second time, i = 0, j = 1, number in pos 0 , 1 moves to 1, 0 bc i and j switch
@@ -136,7 +144,16 @@ def move_up(mat):
     # transpose
     new_mat = transpose(mat)
     # move left
-    new_mat, changed  = move_left(mat)
+    new_mat, changed  = move_left(new_mat)
+    # transpose
+    new_mat = transpose(new_mat)
+    return new_mat, changed
+
+def move_down(mat):
+    # transpose
+    # move right
     # transpose
     new_mat = transpose(mat)
+    new_mat, changed = move_right(new_mat)
+    new_mat = transpose(new_mat)
     return new_mat, changed
